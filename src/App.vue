@@ -2,17 +2,22 @@
   <div id="app">
     <TypeList :types="types"> </TypeList>
 
+   <TypeAdd v-model.number="input_type" @input="input_type=$event" @add-type="addType"> </TypeAdd>
+
+
   </div>
 </template>
 
 <script>
 import TypeList from './components/TypeList'
 import {getTypes} from './api/typelist.js'
+import TypeAdd from './components/TypeAdd'
 
 export default {
   name: 'App',
   components: {
     TypeList,
+    TypeAdd,
   },
   
   data() {
@@ -21,6 +26,18 @@ export default {
       types: [],
       input_type : ''    
       }
+  },
+  methods: {
+    addType() {
+        //, 添加type到types
+        if(this.input_type) {
+            this.types.push({name:this.input_type})
+            this.input_type = ''
+            // this.$refs.msgSuccess.toggle()
+        }else {
+            // this.$refs.msgWarn.toggle()
+        }
+    },
   },
   async created(){
     const type = await getTypes()
