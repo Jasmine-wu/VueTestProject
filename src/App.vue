@@ -1,19 +1,36 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <TypeList :types="types"> </TypeList>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TypeList from './components/TypeList'
+import {getTypes} from './api/typelist.js'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    TypeList,
+  },
+  
+  data() {
+    return {  
+      title: 'this is a title',
+      types: [],
+      input_type : ''    
+      }
+  },
+  async created(){
+    const type = await getTypes()
+    this.types = type
+
+    // 批量初始赋值price属性
+    this.batchUpdate()
+  },
+};
+
 </script>
 
 <style>
